@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import FirebaseAppProvider from "@/components/firebase/FirebaseAppProvider";
 import AppFrame from "@/components/layout/AppFrame";
 import AppMotion from "@/components/motion/AppMotion";
+import ThemeEffects from "@/components/theme/ThemeEffects";
 import ThemeProvider from "@/components/theme/ThemeProvider";
 import ToastProvider from "@/components/ui/ToastProvider";
 import { defaultThemeId, themePalettes } from "@/lib/themes";
@@ -36,6 +37,7 @@ const themeInitScript = `
     const themes = ${JSON.stringify(themePalettes)};
     const selected = themes.find((theme) => theme.id === saved) || themes[0];
     const root = document.documentElement;
+    root.setAttribute("data-theme-id", selected.id);
     root.style.setProperty("--background", selected.background);
     root.style.setProperty("--foreground", selected.foreground);
     root.style.setProperty("--card", selected.card);
@@ -61,11 +63,16 @@ export default function RootLayout({
       >
         <FirebaseAppProvider>
           <ThemeProvider>
-            <ToastProvider>
-              <AppMotion>
-                <AppFrame>{children}</AppFrame>
-              </AppMotion>
-            </ToastProvider>
+            <div className="relative min-h-screen overflow-x-hidden">
+              <ThemeEffects />
+              <div className="relative z-10">
+                <ToastProvider>
+                  <AppMotion>
+                    <AppFrame>{children}</AppFrame>
+                  </AppMotion>
+                </ToastProvider>
+              </div>
+            </div>
           </ThemeProvider>
         </FirebaseAppProvider>
       </body>

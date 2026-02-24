@@ -6,7 +6,8 @@ export type ThemeId =
   | "throne-iron"
   | "forest-mint"
   | "sunset-ink"
-  | "night-ocean";
+  | "night-ocean"
+  | "autumn-harvest";
 
 export type ThemePalette = {
   id: ThemeId;
@@ -64,7 +65,7 @@ export const themePalettes: ThemePalette[] = [
   },
   {
     id: "throne-iron",
-    label: "Throne Iron",
+    label: "Winter Is Coming",
     background: "#111216",
     foreground: "#e0ded8",
     card: "#1a1c22",
@@ -101,6 +102,16 @@ export const themePalettes: ThemePalette[] = [
     muted: "#8ea5bf",
     accent: "#5bb0df",
     accentSoft: "#1b3142",
+  },
+  {
+    id: "autumn-harvest",
+    label: "Autumn Harvest",
+    background: "#2a1b14",
+    foreground: "#f4dfca",
+    card: "#3b271d",
+    muted: "#c9a486",
+    accent: "#d36b2d",
+    accentSoft: "#5a3525",
   },
 ];
 

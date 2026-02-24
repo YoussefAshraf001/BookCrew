@@ -34,6 +34,7 @@ function applyTheme(themeId: ThemeId) {
   const theme = getThemeById(themeId);
   const root = document.documentElement;
 
+  root.setAttribute("data-theme-id", themeId);
   root.style.setProperty("--background", theme.background);
   root.style.setProperty("--foreground", theme.foreground);
   root.style.setProperty("--card", theme.card);

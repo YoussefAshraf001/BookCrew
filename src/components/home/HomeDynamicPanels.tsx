@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useMemo } from "react";
 import {
   useFirebaseApp,
@@ -83,6 +84,37 @@ export default function HomeDynamicPanels({
     { label: "Paused", count: statusCounts.paused },
   ];
 
+  function BookCover({
+    src,
+    alt,
+    className,
+  }: {
+    src?: string | null;
+    alt: string;
+    className?: string;
+  }) {
+    if (!src) {
+      return (
+        <div
+          className={`flex items-center justify-center rounded-md bg-accent-soft/45 text-[10px] font-semibold uppercase tracking-wide text-muted ${className ?? ""}`}
+        >
+          No Cover
+        </div>
+      );
+    }
+
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        width={120}
+        height={180}
+        className={`rounded-md object-cover ${className ?? ""}`}
+        unoptimized
+      />
+    );
+  }
+
   return (
     <>
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
@@ -128,15 +160,26 @@ export default function HomeDynamicPanels({
                   key={book.id}
                   className="rounded-xl border border-accent-soft bg-card p-4"
                 >
-                  <p className="font-semibold">{book.title}</p>
-                  <p className="text-sm text-muted">{book.authors}</p>
-                  <div className="mt-2 flex items-center justify-between text-xs">
-                    <span className="rounded-full bg-accent-soft px-2 py-1 font-medium text-accent">
-                      {book.category}
-                    </span>
-                    <span className="font-medium text-muted">
-                      {book.publishedDate}
-                    </span>
+                  <div className="flex gap-3">
+                    <BookCover
+                      src={book.thumbnail}
+                      alt={`${book.title} cover`}
+                      className="h-[78px] w-[54px] shrink-0"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className="line-clamp-2 font-semibold">{book.title}</p>
+                      <p className="line-clamp-1 text-sm text-muted">
+                        {book.authors}
+                      </p>
+                      <div className="mt-2 flex items-center justify-between gap-2 text-xs">
+                        <span className="line-clamp-1 rounded-full bg-accent-soft px-2 py-1 font-medium text-accent">
+                          {book.category}
+                        </span>
+                        <span className="font-medium text-muted">
+                          {book.publishedDate}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </li>
               ))
@@ -169,17 +212,30 @@ export default function HomeDynamicPanels({
                       key={book.bookId || book.docId}
                       className="rounded-lg bg-accent-soft/40 p-3 text-sm"
                     >
-                      <p className="font-semibold">{book.title}</p>
-                      <p className="text-xs text-muted">{book.authors}</p>
-                      <p className="mt-1 text-xs text-muted">
-                        {book.publishedDate}
-                      </p>
-                      <Link
-                        href={`/book/${book.bookId}`}
-                        className="mt-2 inline-flex rounded-full border border-accent-soft px-3 py-1 text-xs font-semibold text-accent transition hover:border-accent hover:bg-accent-soft/40"
-                      >
-                        Continue
-                      </Link>
+                      <div className="flex gap-3">
+                        <BookCover
+                          src={book.thumbnail}
+                          alt={`${book.title} cover`}
+                          className="h-[72px] w-[50px] shrink-0"
+                        />
+                        <div className="min-w-0 flex-1">
+                          <p className="line-clamp-2 font-semibold">
+                            {book.title}
+                          </p>
+                          <p className="line-clamp-1 text-xs text-muted">
+                            {book.authors}
+                          </p>
+                          <p className="mt-1 text-xs text-muted">
+                            {book.publishedDate}
+                          </p>
+                          <Link
+                            href={`/book/${book.bookId}`}
+                            className="mt-2 inline-flex rounded-full border border-accent-soft px-3 py-1 text-xs font-semibold text-accent transition hover:border-accent hover:bg-accent-soft/40"
+                          >
+                            Continue
+                          </Link>
+                        </div>
+                      </div>
                     </li>
                   ))
                 ) : (
@@ -206,17 +262,30 @@ export default function HomeDynamicPanels({
                       key={book.bookId || book.docId}
                       className="rounded-lg bg-accent-soft/40 p-3 text-sm"
                     >
-                      <p className="font-semibold">{book.title}</p>
-                      <p className="text-xs text-muted">{book.authors}</p>
-                      <p className="mt-1 text-xs text-muted">
-                        Finished: {book.publishedDate}
-                      </p>
-                      <Link
-                        href={`/book/${book.bookId}`}
-                        className="mt-2 inline-flex rounded-full border border-accent-soft px-3 py-1 text-xs font-semibold text-accent transition hover:border-accent hover:bg-accent-soft/40"
-                      >
-                        Open again
-                      </Link>
+                      <div className="flex gap-3">
+                        <BookCover
+                          src={book.thumbnail}
+                          alt={`${book.title} cover`}
+                          className="h-[72px] w-[50px] shrink-0"
+                        />
+                        <div className="min-w-0 flex-1">
+                          <p className="line-clamp-2 font-semibold">
+                            {book.title}
+                          </p>
+                          <p className="line-clamp-1 text-xs text-muted">
+                            {book.authors}
+                          </p>
+                          <p className="mt-1 text-xs text-muted">
+                            Finished: {book.publishedDate}
+                          </p>
+                          <Link
+                            href={`/book/${book.bookId}`}
+                            className="mt-2 inline-flex rounded-full border border-accent-soft px-3 py-1 text-xs font-semibold text-accent transition hover:border-accent hover:bg-accent-soft/40"
+                          >
+                            Open again
+                          </Link>
+                        </div>
+                      </div>
                     </li>
                   ))
                 ) : (
